@@ -11,15 +11,11 @@ import java.util.Optional;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-    // Rezervasiyaya aid ödənişi tap
     Optional<Payment> findByBookingId(Long bookingId);
 
-    // Tranzaksiya ID-sinə görə tap
     Optional<Payment> findByTransactionId(String transactionId);
 
-    // Statusuna görə ödənişləri tap
     List<Payment> findByPaymentStatus(PaymentStatus paymentStatus);
 
-    // Tranzaksiya ID mövcuddurmu?
     boolean existsByTransactionId(String transactionId);
 }

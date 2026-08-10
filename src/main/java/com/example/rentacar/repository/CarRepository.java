@@ -10,15 +10,11 @@ import java.util.List;
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
 
-    // Statusuna görə avtomobilləri tap
     List<Car> findByStatus(CarStatus status);
 
-    // Markaya görə avtomobilləri tap
     List<Car> findByBrandIgnoreCase(String brand);
 
-    // Qeydiyyat nişanına görə avtomobil tap
     boolean existsByPlateNumber(String plateNumber);
 
-    // Markası VƏ modeli üzrə axtar
     List<Car> findByBrandIgnoreCaseAndModelIgnoreCase(String brand, String model);
 }

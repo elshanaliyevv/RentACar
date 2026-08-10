@@ -25,33 +25,27 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    // Bu ödəniş hansı rezervasiyaya aiddir
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false, unique = true)
     Booking booking;
 
-    // Ödənilən məbləğ
     @NotNull
     @Positive
     @Column(nullable = false, precision = 10, scale = 2)
     BigDecimal amount;
 
-    // Ödəniş üsulu
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", nullable = false)
     PaymentMethod paymentMethod;
 
-    // Ödənişin vəziyyəti
     @Enumerated(EnumType.STRING)
     @Builder.Default
     @Column(name = "payment_status", nullable = false)
     PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
-    // Xarici ödəniş sistemi tərəfindən qaytarılan tranzaksiya ID-si
     @Column(name = "transaction_id", unique = true)
     String transactionId;
 
-    // Ödənişin həyata keçirildiyi vaxt
     @Column(name = "paid_at")
     LocalDateTime paidAt;
 

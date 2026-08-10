@@ -25,29 +25,24 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    // Şərhi yazan istifadəçi
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    // Şərhin aid olduğu avtomobil
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
     Car car;
 
-    // Şərhin mətni
     @NotBlank
     @Column(nullable = false, columnDefinition = "TEXT")
     String content;
 
-    // Reytinq: 1-dən 5-ə qədər
     @NotNull
     @Min(1)
     @Max(5)
     @Column(nullable = false)
     Integer rating;
 
-    // Admin tərəfindən silinib/gizlədilib?
     @Builder.Default
     @Column(name = "is_visible")
     Boolean isVisible = true;

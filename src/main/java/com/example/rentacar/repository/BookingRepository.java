@@ -13,19 +13,14 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    // İstifadəçinin bütün rezervasiyaları
     List<Booking> findByUserId(Long userId);
 
-    // Avtomobilin bütün rezervasiyaları
     List<Booking> findByCarId(Long carId);
 
-    // Statusuna görə rezervasiyalar
     List<Booking> findByBookingStatus(BookingStatus status);
 
-    // İstifadəçinin statusuna görə rezervasiyaları
     List<Booking> findByUserIdAndBookingStatus(Long userId, BookingStatus status);
 
-    // Tarix aralığında avtomobil artıq rezerv edilib mi? (üst-üstə düşmə yoxlaması)
     @Query("SELECT COUNT(b) > 0 FROM Booking b WHERE b.car.id = :carId " +
            "AND b.bookingStatus NOT IN ('CANCELLED') " +
            "AND b.startDate < :endDate AND b.endDate > :startDate")
