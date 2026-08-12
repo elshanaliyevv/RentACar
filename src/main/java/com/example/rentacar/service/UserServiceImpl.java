@@ -1,5 +1,6 @@
 package com.example.rentacar.service;
 
+import com.example.rentacar.exception.InvalidTokenException;
 import com.example.rentacar.exception.UserAlreadyExistsException;
 import com.example.rentacar.mapper.Mapper;
 import com.example.rentacar.model.entity.User;
@@ -10,6 +11,7 @@ import com.example.rentacar.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +26,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public TokensResponse register(UserRegisterRequest userRegisterRequest) {
         if (userRepo.existsByEmail(userRegisterRequest.getEmail())){
-            throw new UserAlreadyExistsException("Bu username artiq movcuddur");
+            throw new UserAlreadyExistsException("Bu email artiq movcuddur");
         }
         if (userRepo.existsByNumber(userRegisterRequest.getNumber())) {
             throw new UserAlreadyExistsException("Bu nomre artıq istifadə olunub");
         }
         if (userRepo.existsByUsername(userRegisterRequest.getUsername())) {
-            throw new UserAlreadyExistsException("Bu nomre artıq istifadə olunub");
+            throw new UserAlreadyExistsException("Bu Username artıq istifadə olunub");
         }
         User user = mapper.toUser(userRegisterRequest);
         user.setPassword(passwordEncoder.encode(userRegisterRequest.getPassword()));
@@ -42,5 +44,18 @@ public class UserServiceImpl implements UserService {
     public TokensResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
         return jwtService.generateTokens(loginRequest.getUsername());
+    }
+
+    @Override
+    public TokensResponse refreshToken(String refreshToken) {
+        if (!jwtService.isTokenValid(refreshToken)){
+            throw new InvalidTokenException("Refresh token yanlışdır və ya vaxtı bitib");
+        }
+        String username = jwtService.extractUsername(refreshToken);
+        if (!userRepo.existsByUsername(username)) {
+            throw new UsernameNotFoundException("İstifadəçi tapılmadı");
+        }
+        return jwtService.generateTokens(username);
+
     }
 }

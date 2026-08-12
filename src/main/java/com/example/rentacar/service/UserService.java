@@ -5,6 +5,9 @@ import com.example.rentacar.model.request.UserRegisterRequest;
 import com.example.rentacar.model.response.TokensResponse;
 
 public interface UserService {
-    public TokensResponse register(UserRegisterRequest userRegisterRequest);
-    public TokensResponse login(LoginRequest loginRequest);
+    TokensResponse register(UserRegisterRequest userRegisterRequest);
+
+    TokensResponse login(LoginRequest loginRequest);
+
+    TokensResponse refreshToken(String refreshToken);
 }
