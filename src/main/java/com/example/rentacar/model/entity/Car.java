@@ -76,10 +76,6 @@ public class Car {
     @Column(columnDefinition = "TEXT")
     String description;
 
-    @Column(nullable = false)
-    @Builder.Default
-    Integer mileage = 0;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     LocalDateTime createdAt;
