@@ -35,7 +35,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<Map<String, String>> handleInvalidToken(InvalidTokenException ex){
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error",ex.getMessage()));
+    public ResponseEntity<Map<String, String>> handleInvalidToken(InvalidTokenException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(CarAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleCarExist(CarAlreadyExistException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(CarNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleCarNotFound(CarNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
 }

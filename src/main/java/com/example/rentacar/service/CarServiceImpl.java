@@ -1,0 +1,70 @@
+package com.example.rentacar.service;
+
+import com.example.rentacar.exception.CarAlreadyExistException;
+import com.example.rentacar.exception.CarNotFoundException;
+import com.example.rentacar.mapper.Mapper;
+import com.example.rentacar.model.entity.Car;
+import com.example.rentacar.model.request.CarRegisterRequest;
+import com.example.rentacar.model.response.CarResponse;
+import com.example.rentacar.repository.CarRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@RequiredArgsConstructor
+@Service
+public class CarServiceImpl implements CarService {
+    private final CarRepository carRepository;
+    private final Mapper mapper;
+
+    @Override
+    public CarResponse createCar(CarRegisterRequest carRegisterRequest) {
+        if (carRepository.existsByPlateNumber(carRegisterRequest.getPlateNumber())) {
+            throw new CarAlreadyExistException("Bu neqliyyat artiq movcuddur");
+        }
+        Car car = carRepository.save(mapper.carRegisterRequestToCar(carRegisterRequest));
+        return mapper.toCarResponse(car);
+    }
+
+    @Override
+    public List<CarResponse> getAllCars() {
+        return carRepository.findAll().stream()
+                .map(mapper::toCarResponse)
+                .toList();
+    }
+
+    @Override
+    public List<CarResponse> getCarByModel(String model) {
+        List<Car> cars = carRepository.findCarByModel(model);
+        if (cars.isEmpty()) {
+            throw new CarNotFoundException("Bele bir model yoxdur");
+        }
+        return cars.stream()
+                .map(mapper::toCarResponse)
+                .toList();
+    }
+
+    @Override
+    public CarResponse getCarById(Long id) {
+        Optional<Car> car = carRepository.findById(id);
+
+        if (!car.isPresent()) {
+            throw new CarNotFoundException(id + " bu id ye mexsus masin yoxdur");
+        }
+        return mapper.toCarResponse(car.get());
+
+    }
+
+    @Override
+    public boolean deleteCar(Long id) {
+        Optional<Car> car = carRepository.findById(id);
+
+        if (!car.isPresent()) {
+            throw new CarNotFoundException(id + " bu id ye mexsus masin yoxdur");
+        }
+        carRepository.deleteById(id);
+        return true;
+    }
+}

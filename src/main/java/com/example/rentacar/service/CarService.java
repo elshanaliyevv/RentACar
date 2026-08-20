@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface CarService {
     CarResponse createCar(CarRegisterRequest carRegisterRequest);
+
     List<CarResponse> getAllCars();
+
     List<CarResponse> getCarByModel(String model);
-    CarResponse getCarById(Integer id);
-    boolean deleteCar(Integer id);
+
+    CarResponse getCarById(Long id);
+
+    boolean deleteCar(Long id);
 }
