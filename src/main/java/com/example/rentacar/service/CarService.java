@@ -6,7 +6,7 @@ import com.example.rentacar.model.response.CarResponse;
 import java.util.List;
 
 public interface CarService {
-    CarResponse createCar(CarRegisterRequest carRegisterRequest);
+    CarResponse registerCar(CarRegisterRequest carRegisterRequest);
 
     List<CarResponse> getAllCars();
 
@@ -15,4 +15,6 @@ public interface CarService {
     CarResponse getCarById(Long id);
 
     boolean deleteCar(Long id);
+
+    CarResponse updateCar(Long id, CarRegisterRequest request);
 }

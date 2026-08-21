@@ -2,11 +2,13 @@ package com.example.rentacar.service;
 
 import com.example.rentacar.exception.CarAlreadyExistException;
 import com.example.rentacar.exception.CarNotFoundException;
+import com.example.rentacar.exception.NumberAlreadyExistException;
 import com.example.rentacar.mapper.Mapper;
 import com.example.rentacar.model.entity.Car;
 import com.example.rentacar.model.request.CarRegisterRequest;
 import com.example.rentacar.model.response.CarResponse;
 import com.example.rentacar.repository.CarRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class CarServiceImpl implements CarService {
     private final Mapper mapper;
 
     @Override
-    public CarResponse createCar(CarRegisterRequest carRegisterRequest) {
+    public CarResponse registerCar(CarRegisterRequest carRegisterRequest) {
         if (carRepository.existsByPlateNumber(carRegisterRequest.getPlateNumber())) {
             throw new CarAlreadyExistException("Bu neqliyyat artiq movcuddur");
         }
@@ -57,6 +59,7 @@ public class CarServiceImpl implements CarService {
 
     }
 
+    @Transactional
     @Override
     public boolean deleteCar(Long id) {
         Optional<Car> car = carRepository.findById(id);
@@ -67,4 +70,32 @@ public class CarServiceImpl implements CarService {
         carRepository.deleteById(id);
         return true;
     }
+
+    @Transactional
+    @Override
+    public CarResponse updateCar(Long id, CarRegisterRequest request) {
+        Optional<Car> car = carRepository.findById(id);
+        if (!car.isPresent()) {
+            throw new CarNotFoundException(id + " bu id ye mexsus masin movcud deyil");
+        }
+        Car carWithSamePlate = carRepository.findCarByPlateNumber(request.getPlateNumber());
+        if (carWithSamePlate != null && !carWithSamePlate.getId().equals(id)) {
+            throw new NumberAlreadyExistException(request.getPlateNumber() + " bu nomrede masin sistemde movcuddur");
+        }
+        Car existingCar = car.get();
+        existingCar.setBrand(request.getBrand());
+        existingCar.setModel(request.getModel());
+        existingCar.setYear(request.getYear());
+        existingCar.setPricePerDay(request.getPricePerDay());
+        existingCar.setColor(request.getColor());
+        existingCar.setPlateNumber(request.getPlateNumber());
+        existingCar.setFuelType(request.getFuelType());
+        existingCar.setTransmissionType(request.getTransmissionType());
+        existingCar.setSeatingCapacity(request.getSeatingCapacity());
+        existingCar.setImageUrl(request.getImageUrl());
+        existingCar.setDescription(request.getDescription());
+
+        return mapper.toCarResponse(carRepository.save(existingCar));
+    }
+
 }

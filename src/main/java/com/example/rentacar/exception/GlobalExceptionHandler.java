@@ -48,4 +48,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleCarNotFound(CarNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
+    @ExceptionHandler(NumberAlreadyExistException.class)
+    public ResponseEntity<Map<String, String>> handleNumberExist(NumberAlreadyExistException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", ex.getMessage()));
+    }
 }
