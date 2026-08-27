@@ -65,7 +65,4 @@ public class Booking {
     @UpdateTimestamp
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
-
-    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Payment payment;
 }
