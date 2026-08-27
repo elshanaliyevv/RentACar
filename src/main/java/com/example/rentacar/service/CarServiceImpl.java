@@ -26,7 +26,7 @@ public class CarServiceImpl implements CarService {
         if (carRepository.existsByPlateNumber(carRegisterRequest.getPlateNumber())) {
             throw new CarAlreadyExistException("Bu neqliyyat artiq movcuddur");
         }
-        Car car = carRepository.save(mapper.carRegisterRequestToCar(carRegisterRequest));
+        Car car = carRepository.save(mapper.toCar(carRegisterRequest));
         return mapper.toCarResponse(car);
     }
 

@@ -1,6 +1,7 @@
 package com.example.rentacar.model.entity;
 
 import com.example.rentacar.enums.BookingStatus;
+import com.example.rentacar.enums.PaymentMethod;
 import com.example.rentacar.enums.PaymentStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -54,6 +55,10 @@ public class Booking {
     @Builder.Default
     @Column(name = "payment_status", nullable = false)
     PaymentStatus paymentStatus = PaymentStatus.PENDING;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", nullable = false)
+    PaymentMethod paymentMethod;
 
     @Column(columnDefinition = "TEXT")
     String notes;

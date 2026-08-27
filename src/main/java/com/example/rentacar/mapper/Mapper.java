@@ -1,12 +1,17 @@
 package com.example.rentacar.mapper;
 
 import com.example.rentacar.enums.Roles;
+import com.example.rentacar.model.entity.Booking;
 import com.example.rentacar.model.entity.Car;
 import com.example.rentacar.model.entity.User;
+import com.example.rentacar.model.request.BookingRequest;
 import com.example.rentacar.model.request.CarRegisterRequest;
 import com.example.rentacar.model.request.UserRegisterRequest;
+import com.example.rentacar.model.response.BookingResponse;
 import com.example.rentacar.model.response.CarResponse;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class Mapper {
@@ -20,7 +25,7 @@ public class Mapper {
                 .build();
     }
 
-    public Car carRegisterRequestToCar(CarRegisterRequest carRegisterRequest) {
+    public Car toCar(CarRegisterRequest carRegisterRequest) {
         return Car.builder()
                 .brand(carRegisterRequest.getBrand())
                 .color(carRegisterRequest.getColor())
@@ -51,6 +56,35 @@ public class Mapper {
                 .transmissionType(car.getTransmissionType())
                 .year(car.getYear())
                 .status(car.getStatus())
+                .build();
+
+    }
+
+    public Booking toBooking(BookingRequest request, Car car, User user, BigDecimal totalPrice) {
+        return Booking.builder()
+                .car(car)
+                .user(user)
+                .totalPrice(totalPrice)
+                .startDate(request.getStartDate())
+                .paymentMethod(request.getPaymentMethod())
+                .endDate(request.getEndDate())
+                .notes(request.getNotes())
+                .build();
+    }
+
+    public BookingResponse toBookingResponse(Booking booking, Car car) {
+        return BookingResponse.builder()
+                .bookingStatus(booking.getBookingStatus())
+                .carBrand(car.getBrand())
+                .carModel(car.getModel())
+                .carPlateNumber(car.getPlateNumber())
+                .endDate(booking.getEndDate())
+                .startDate(booking.getStartDate())
+                .notes(booking.getNotes())
+                .id(booking.getId())
+                .totalPrice(booking.getTotalPrice())
+                .paymentMethod(booking.getPaymentMethod())
+                .paymentStatus(booking.getPaymentStatus())
                 .build();
 
     }
