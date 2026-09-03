@@ -7,7 +7,7 @@ import com.example.rentacar.model.entity.User;
 import com.example.rentacar.model.request.LoginRequest;
 import com.example.rentacar.model.request.UserRegisterRequest;
 import com.example.rentacar.model.response.TokensResponse;
-import com.example.rentacar.repository.UserRepo;
+import com.example.rentacar.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepo userRepo;
+    private final UserRepository userRepo;
     private final Mapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;

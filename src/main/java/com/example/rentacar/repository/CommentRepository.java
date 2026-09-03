@@ -21,4 +21,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("SELECT AVG(c.rating) FROM Comment c WHERE c.car.id = :carId AND c.isVisible = true")
     Double findAverageRatingByCarId(@Param("carId") Long carId);
+
+    boolean existsByIdAndUserId(Long id, Long user_id);
 }

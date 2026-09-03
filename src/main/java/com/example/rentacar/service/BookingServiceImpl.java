@@ -14,7 +14,7 @@ import com.example.rentacar.model.request.BookingRequest;
 import com.example.rentacar.model.response.BookingResponse;
 import com.example.rentacar.repository.BookingRepository;
 import com.example.rentacar.repository.CarRepository;
-import com.example.rentacar.repository.UserRepo;
+import com.example.rentacar.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final CarRepository carRepository;
     private final Mapper mapper;
-    private final UserRepo userRepo;
+    private final UserRepository userRepo;
 
     @Override
     public List<BookingResponse> getAllBookings() {

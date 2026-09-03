@@ -3,12 +3,15 @@ package com.example.rentacar.mapper;
 import com.example.rentacar.enums.Roles;
 import com.example.rentacar.model.entity.Booking;
 import com.example.rentacar.model.entity.Car;
+import com.example.rentacar.model.entity.Comment;
 import com.example.rentacar.model.entity.User;
 import com.example.rentacar.model.request.BookingRequest;
 import com.example.rentacar.model.request.CarRegisterRequest;
+import com.example.rentacar.model.request.CommentRequest;
 import com.example.rentacar.model.request.UserRegisterRequest;
 import com.example.rentacar.model.response.BookingResponse;
 import com.example.rentacar.model.response.CarResponse;
+import com.example.rentacar.model.response.CommentResponse;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -87,5 +90,26 @@ public class Mapper {
                 .paymentStatus(booking.getPaymentStatus())
                 .build();
 
+    }
+
+    public Comment toComment(CommentRequest request, Car car, User user) {
+        return Comment.builder()
+                .car(car)
+                .user(user)
+                .rating(request.getRating())
+                .content(request.getComment())
+                .build();
+    }
+
+    public CommentResponse toCommentResponse(Comment comment, Car car, User user) {
+        return CommentResponse.builder()
+                .id(comment.getId())
+                .carBrand(car.getBrand())
+                .carModel(car.getModel())
+                .rating(comment.getRating())
+                .comment(comment.getContent())
+                .createdAt(comment.getCreatedAt())
+                .username(user.getUsername())
+                .build();
     }
 }
