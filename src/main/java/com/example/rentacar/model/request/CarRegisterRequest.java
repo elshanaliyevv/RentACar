@@ -26,6 +26,9 @@ public class CarRegisterRequest {
     @Max(2026)
     Integer year;
     @NotNull
+    @Positive
+    Integer mileage;
+    @NotNull
     @DecimalMax(value = "10000.00", message = "Qiymet cox yuksekdir")
     @DecimalMin(value = "30.00", message = "Qiymet cox azdir")
     BigDecimal pricePerDay;

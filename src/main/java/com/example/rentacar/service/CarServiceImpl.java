@@ -86,6 +86,7 @@ public class CarServiceImpl implements CarService {
         existingCar.setBrand(request.getBrand());
         existingCar.setModel(request.getModel());
         existingCar.setYear(request.getYear());
+        existingCar.setMileage(request.getMileage());
         existingCar.setPricePerDay(request.getPricePerDay());
         existingCar.setColor(request.getColor());
         existingCar.setPlateNumber(request.getPlateNumber());

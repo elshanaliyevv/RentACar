@@ -43,6 +43,11 @@ public class Car {
 
     @NotNull
     @Positive
+    @Column(nullable = false)
+    Integer mileage;
+
+    @NotNull
+    @Positive
     @Column(name = "price_per_day", nullable = false, precision = 10, scale = 2)
     BigDecimal pricePerDay;
 

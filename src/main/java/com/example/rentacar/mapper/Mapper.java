@@ -40,6 +40,7 @@ public class Mapper {
                 .imageUrl(carRegisterRequest.getImageUrl())
                 .transmissionType(carRegisterRequest.getTransmissionType())
                 .year(carRegisterRequest.getYear())
+                .mileage(carRegisterRequest.getMileage())
                 .seatingCapacity(carRegisterRequest.getSeatingCapacity())
                 .build();
     }
@@ -58,6 +59,7 @@ public class Mapper {
                 .seatingCapacity(car.getSeatingCapacity())
                 .transmissionType(car.getTransmissionType())
                 .year(car.getYear())
+                .mileage(car.getMileage())
                 .status(car.getStatus())
                 .build();
 

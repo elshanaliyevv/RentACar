@@ -18,6 +18,7 @@ public class CarResponse {
     String brand;
     String model;
     Integer year;
+    Integer mileage;
     BigDecimal pricePerDay;
     String color;
     String plateNumber;
